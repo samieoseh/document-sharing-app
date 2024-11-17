@@ -7,6 +7,7 @@ const { validateAuth } = require("./utils/validate-auth");
 
 // routes imports
 const authRoutes = require("./routes/auth");
+const folderRoutes = require("./routes/folder");
 
 const app = express();
 
@@ -36,7 +37,8 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/folders", folderRoutes);
 connectToDatabase();
 
 module.exports = app;

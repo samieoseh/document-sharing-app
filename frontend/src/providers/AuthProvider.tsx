@@ -1,13 +1,15 @@
 import { loginUser } from "@/api/auth-api";
 import AuthContext from "@/contexts/AuthContext";
+import useRefreshToken from "@/hooks/useRefreshToken";
 import { User } from "@/types/User";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AuthProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const refresh = useRefreshToken();
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
@@ -35,6 +37,25 @@ export default function AuthProvider({
     setIsAuthenticated(true);
     setToken("1234");
   };
+
+  useEffect(() => {
+    const refreshUser = async () => {
+      const { user, accessToken } = await refresh();
+      if (user && accessToken) {
+        setUser(user);
+        setToken(accessToken);
+      }
+    };
+
+    refreshUser()
+      .then(() => {
+        setWaitIsAuthCheck(false);
+        setIsAuthenticated(true);
+      })
+      .catch(() => {
+        setWaitIsAuthCheck(false);
+      });
+  }, []);
 
   return (
     <AuthContext.Provider

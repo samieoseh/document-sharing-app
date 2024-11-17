@@ -11,6 +11,7 @@ import FilesPage from "./main/app/files/FilesPage.tsx";
 import SharedPage from "./main/app/shared-with-me/SharedPage.tsx";
 import RecentPage from "./main/app/recent/RecentPage.tsx";
 import TrashPage from "./main/app/trash/TrashPage.tsx";
+import AppProvider from "./providers/AppProvider.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,6 +33,12 @@ const router = createBrowserRouter([
       {
         path: "/files",
         element: <FilesPage />,
+        children: [
+          {
+            path: "/files/:id",
+            element: <FilesPage />,
+          },
+        ],
       },
       {
         path: "/shared",
@@ -60,7 +67,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <AppProvider>
+        <RouterProvider router={router} />
+      </AppProvider>
     </AuthProvider>
   </QueryClientProvider>,
 );

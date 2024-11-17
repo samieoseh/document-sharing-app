@@ -4,6 +4,7 @@ exports.validateRequestBody = (requiredFieldsWithTypes) => {
       return res.status(400).json({ message: "Request body is required" });
     }
 
+    console.log("req.body", req.body);
     // Check for missing fields and type validation
     const missingFields = [];
     const invalidFields = [];

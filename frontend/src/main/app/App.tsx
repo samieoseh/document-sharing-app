@@ -20,7 +20,7 @@ function App() {
       <SidePanel />
       <div className="flex flex-col h-screen w-full py-6 px-8">
         <TopPanel />
-        <div className="bg-white mt-2 h-screen rounded-lg">
+        <div className="bg-white mt-2 h-screen rounded-lg overflow-y-scroll">
           <Outlet />
         </div>
       </div>
